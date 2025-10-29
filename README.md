@@ -6,7 +6,7 @@ This repository is for demonstration purposes only. It includes:
 - A 'view' page showing how a user might view submitted site suggestions using a web component
 - A 'form' page showing how a user might submit a site suggestion (unfinished)
 
-![screenshot of the component](image.png)
+![screenshot of the component](view-the-data--web-component.png)
 
 ## Running the project
 

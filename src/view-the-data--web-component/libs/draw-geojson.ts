@@ -1,5 +1,15 @@
 import type { GeoJSON } from "geojson";
 
+/**
+ * Module for drawing GeoJSON shapes on a canvas.
+ * This is for demonstration purposes only and is not intended for production use!
+ */
+
+/**
+ * Checks if a GeoJSON object has a geometry property.
+ * @param obj - The GeoJSON object to check.
+ * @returns True if the object has a geometry property, false otherwise.
+ */
 // Type guard to check if geojson has a geometry property
 function hasGeometry(
   obj: GeoJSON

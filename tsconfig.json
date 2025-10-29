@@ -24,7 +24,16 @@
 
     /* Lit stuff */
     "experimentalDecorators": true,
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "view-the-data--web-component",
+    "submit-the-data--one-page-form",
+    "types-archive"
+  ]
 }

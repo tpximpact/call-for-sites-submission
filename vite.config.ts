@@ -9,7 +9,14 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
-        nested: resolve(__dirname, "form/index.html"),
+        submitTheDataOnePageForm: resolve(
+          __dirname,
+          "submit-the-data--one-page-form/index.html"
+        ),
+        viewTheDataWebComponent: resolve(
+          __dirname,
+          "view-the-data--web-component/index.html"
+        ),
       },
     },
   },

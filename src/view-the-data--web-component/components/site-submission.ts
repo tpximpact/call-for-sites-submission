@@ -1,20 +1,26 @@
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import type { Data } from "../types";
 import { drawGeoJSON } from "../libs/draw-geojson";
-import type { QuestionAndResponses, Response } from "../types/Responses";
+import type {
+  QuestionAndResponses,
+  Response,
+} from "../../../src/types/from-odp/Responses";
 
-const defaultData: Data = {
+const defaultData: SiteSubmission = {
   data: {
     submitter: {
-      submitter: false,
-      name: "",
+      type: "individual",
+      name: {
+        first: "",
+        last: "",
+      },
       email: "",
-      telephone: "",
-      actingOnBehalf: false,
-      connectionToSite: "Other",
+      phone: {
+        primary: "",
+      },
+      siteConnection: "Other",
+      siteConnectionOther: "hello",
     },
-    owners: [],
     site: {
       address: { line1: "", town: "", postcode: "", country: "" },
       boundary: {
@@ -22,8 +28,8 @@ const defaultData: Data = {
         geometry: { type: "MultiPolygon", coordinates: [] },
         properties: {},
       },
-      currentUse: [],
     },
+    currentUse: [],
     future: { potentialUse: [], potentialScale: "", siteSplit: "maybe" },
     constraints: { other: "" },
     applications: {},
