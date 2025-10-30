@@ -1,8 +1,15 @@
-import type { SiteSubmission } from "@/types/SiteSubmission";
 import "../common/style.css";
 
 function setupForm(form: HTMLFormElement) {
-  let data: SiteSubmission = {};
+  let data = {
+    data: {
+      submitter: {
+        name: { title: "", first: "", last: "" },
+        email: "",
+        phone: { primary: "" },
+      },
+    },
+  };
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     const formData = new FormData(form);
