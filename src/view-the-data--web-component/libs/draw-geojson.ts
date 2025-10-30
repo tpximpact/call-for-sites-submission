@@ -1,3 +1,4 @@
+/* eslint-disable */
 import type { GeoJSON } from "geojson";
 
 /**

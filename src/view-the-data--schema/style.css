@@ -1,0 +1,45 @@
+[type="submit"],
+[type="reset"],
+[type="button"] {
+  margin-bottom: 0;
+}
+
+button,
+[type="submit"],
+[type="reset"],
+[type="button"],
+[type="file"]::file-selector-button,
+[role="button"] {
+  color: var(--color-text);
+
+  --pico-border-color: inherit;
+  --pico-background-color: inherit;
+
+  --pico-border-width: 0;
+  --pico-border-color: var(--color-border-input);
+
+  --pico-form-element-spacing-vertical: 0;
+  --pico-form-element-spacing-horizontal: 0;
+
+  font-size: inherit;
+}
+
+button:is([aria-current]:not([aria-current="false"])),
+button:is(:hover, :active, :focus),
+[type="submit"]:is([aria-current]:not([aria-current="false"])),
+[type="submit"]:is(:hover, :active, :focus),
+[type="reset"]:is([aria-current]:not([aria-current="false"])),
+[type="reset"]:is(:hover, :active, :focus),
+[type="button"]:is([aria-current]:not([aria-current="false"])),
+[type="button"]:is(:hover, :active, :focus),
+[type="file"]::file-selector-button:is(
+    [aria-current]:not([aria-current="false"])
+  ),
+[type="file"]::file-selector-button:is(:hover, :active, :focus),
+[role="button"]:is([aria-current]:not([aria-current="false"])),
+[role="button"]:is(:hover, :active, :focus) {
+  --pico-border-width: 0;
+  --pico-border-color: var(--color-border-input);
+
+  --pico-primary-hover-background: transparent;
+}

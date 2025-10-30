@@ -7,7 +7,16 @@ import type { Responses } from "./from-odp/Responses";
 import type { GeoJSON } from "geojson";
 import type { Date } from "./from-odp/utils";
 
+/**
+ * @id site-submission
+ * @title Site Submission
+ * @description A submission of a site for development consideration.
+ * @schema
+ */
 export interface SiteSubmission {
+  /**
+   * The main data about the site submission
+   */
   data: {
     /**
      * Information about the person submitting the site
@@ -61,15 +70,21 @@ export interface SiteSubmission {
       // @TODO
       other: string;
     };
-    applications: {
-      // @TODO what other planning applications on this site
-    };
+    // applications: {
+    //   // @TODO what other planning applications on this site
+    // };
     access: {
       // Is there existing access to and from the public highway?
       publicHighwayExistingAccess?: boolean;
       publicHighwayAccessProvided?: string;
     };
   };
+  /**
+   * The original responses associated with this submission
+   */
   responses: Responses;
+  /**
+   * Metadata about this site submission
+   */
   meta: SiteSubmissionMeta;
 }

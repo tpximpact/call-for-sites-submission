@@ -1,7 +1,7 @@
 import "../common/style.css";
 
 function setupForm(form: HTMLFormElement) {
-  let data = {
+  const data = {
     data: {
       submitter: {
         name: { title: "", first: "", last: "" },

@@ -156,23 +156,18 @@ export class SiteSubmission extends LitElement {
   data: SiteSubmissionData = defaultData;
 
   firstUpdated() {
-    const boundary = this.data?.data?.site?.boundary;
+    const boundary = this.data.data.site.boundary;
     const canvas = this.shadowRoot?.getElementById(
       "boundary-canvas"
     ) as HTMLCanvasElement;
-    if (boundary && canvas) {
-      drawGeoJSON(boundary, canvas);
-    }
+    drawGeoJSON(boundary, canvas);
   }
 
   private renderResponses(responses: QuestionAndResponses[]) {
-    if (!responses || responses.length === 0) {
-      return html`<p>No responses available.</p>`;
-    }
     return html`
       <form class="responses-form">
         ${responses.map(
-          (q, idx) => html`
+          (q: QuestionAndResponses, idx: number) => html`
             <fieldset class="response-fieldset">
               <legend><strong>Q${idx + 1}:</strong> ${q.question}</legend>
               ${q.metadata?.sectionName
@@ -203,16 +198,18 @@ export class SiteSubmission extends LitElement {
                                   <div class="response-options">
                                     Options:
                                     <ul>
-                                      ${r.metadata.options.map((opt: any) =>
-                                        typeof opt === "string"
-                                          ? html`<li>${opt}</li>`
-                                          : html`<li>
-                                              ${opt.value}${opt.metadata?.flags
-                                                ? ` (Flags: ${opt.metadata.flags.join(
-                                                    ", "
-                                                  )})`
-                                                : ""}
-                                            </li>`
+                                      ${r.metadata.options.map(
+                                        (opt: string | Response) =>
+                                          typeof opt === "string"
+                                            ? html`<li>${opt}</li>`
+                                            : html`<li>
+                                                ${opt.value}${opt.metadata
+                                                  ?.flags
+                                                  ? ` (Flags: ${opt.metadata.flags.join(
+                                                      ", "
+                                                    )})`
+                                                  : ""}
+                                              </li>`
                                       )}
                                     </ul>
                                   </div>
@@ -234,7 +231,6 @@ export class SiteSubmission extends LitElement {
   }
 
   private renderMetadata(metadata: SiteSubmissionMeta) {
-    if (!metadata) return;
     return html`
       <table>
         <tr>
@@ -247,20 +243,19 @@ export class SiteSubmission extends LitElement {
         </tr>
         <tr>
           <td><strong>Boundary Selection Method</strong></td>
-          <td>${metadata.boundarySelectionMethod || "Unknown"}</td>
+          <td>${metadata.boundarySelectionMethod}</td>
         </tr>
       </table>
     `;
   }
 
   private renderContact(contact: Contact) {
-    if (!contact) return;
     return html`
       <table>
         <tr>
           <td>Name</td>
           <td>
-            ${contact.name.title ? contact.name.title : ""}
+            ${contact.name.title ?? ""}
             ${contact.name.first ? contact.name.first : ""}
             ${contact.name.last ? contact.name.last : ""}
           </td>
@@ -275,13 +270,13 @@ export class SiteSubmission extends LitElement {
         </tr>
         <tr>
           <td>Company</td>
-          <td>${contact.company?.name ? contact.company.name : ""}</td>
+          <td>${contact.company?.name ?? ""}</td>
         </tr>
 
         <tr>
           <td>Connection to site</td>
           <td>
-            ${contact.siteConnection ? contact.siteConnection : "Unknown"}
+            ${contact.siteConnection}
             ${contact.siteConnection === "other" && contact.siteConnectionOther
               ? html` - ${contact.siteConnectionOther}`
               : ""}
@@ -292,39 +287,37 @@ export class SiteSubmission extends LitElement {
   }
 
   private renderAddress(address: Address) {
-    if (!address) return;
     return html`
       <table>
         <tr>
           <td>Line 1</td>
-          <td>${address?.line1}</td>
+          <td>${address.line1}</td>
         </tr>
         <tr>
           <td>Line 2</td>
-          <td>${address?.line2}</td>
+          <td>${address.line2}</td>
         </tr>
         <tr>
           <td>Town</td>
-          <td>${address?.town}</td>
+          <td>${address.town}</td>
         </tr>
         <tr>
           <td>County</td>
-          <td>${address?.county}</td>
+          <td>${address.county}</td>
         </tr>
         <tr>
           <td>Postcode</td>
-          <td>${address?.postcode}</td>
+          <td>${address.postcode}</td>
         </tr>
         <tr>
           <td>Country</td>
-          <td>${address?.country}</td>
+          <td>${address.country}</td>
         </tr>
       </table>
     `;
   }
 
   private renderAccess(access: SiteSubmissionData["data"]["access"]) {
-    if (!access) return;
     return html`
       <table>
         <tr>
@@ -339,11 +332,7 @@ export class SiteSubmission extends LitElement {
         </tr>
         <tr>
           <td>Details of access provided to public highway</td>
-          <td>
-            ${access.publicHighwayAccessProvided
-              ? access.publicHighwayAccessProvided
-              : "N/A"}
-          </td>
+          <td>${access.publicHighwayAccessProvided ?? "N/A"}</td>
         </tr>
       </table>
     `;
@@ -394,7 +383,7 @@ export class SiteSubmission extends LitElement {
 
         <section class="card card--meta">
           <h2>Submission Metadata</h2>
-          ${this.renderMetadata(this.data?.meta!)}
+          ${this.renderMetadata(this.data.meta)}
         </section>
       </div>
     `;

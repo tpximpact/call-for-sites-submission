@@ -353,7 +353,7 @@ export const exampleSiteSubmission1: SiteSubmission = {
     constraints: {
       other: "12345",
     },
-    applications: {},
+    // applications: {},
     access: {
       publicHighwayExistingAccess: true,
     },

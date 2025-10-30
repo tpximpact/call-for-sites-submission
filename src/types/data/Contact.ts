@@ -22,4 +22,10 @@ type ContactOther = ContactDetails & {
   siteConnectionOther: string;
 };
 
+/**
+ * @id contact
+ * @title Contact
+ * @description A contact associated with a site submission.
+ * @schema
+ */
 export type Contact = ContactMain | ContactOther;
