@@ -78,7 +78,9 @@
       "$id": "contact",
       "anyOf": [
         {
+          "$id": "contact_main",
           "additionalProperties": false,
+          "description": "A contact associated with a site submission.",
           "properties": {
             "company": {
               "additionalProperties": false,
@@ -141,10 +143,13 @@
             "siteConnection",
             "type"
           ],
+          "title": "Contact Main",
           "type": "object"
         },
         {
+          "$id": "contact_other",
           "additionalProperties": false,
+          "description": "A contact associated with a site submission with an \"other\" connection.",
           "properties": {
             "company": {
               "additionalProperties": false,
@@ -212,6 +217,7 @@
             "siteConnectionOther",
             "type"
           ],
+          "title": "Contact Other",
           "type": "object"
         }
       ],
@@ -219,7 +225,8 @@
       "title": "Contact"
     },
     "ContactTypes": {
-      "description": "Which of these best describes you (or your organisation)? individual: Private individual company: Company charity: Charity public: Public sector organisation parishCouncil: Parish or community council",
+      "$id": "contact_types",
+      "description": "Which of these best describes you (or your organisation)?",
       "enum": [
         "individual",
         "company",
@@ -227,6 +234,7 @@
         "public",
         "parishCouncil"
       ],
+      "title": "Contact Types",
       "type": "string"
     },
     "Date": {
@@ -684,6 +692,7 @@
       "type": "array"
     },
     "SiteConnectionsMain": {
+      "$id": "site_connections_main",
       "anyOf": [
         {
           "$ref": "#/definitions/LandOwner"
@@ -704,7 +713,8 @@
           "$ref": "#/definitions/CommunityGroup"
         }
       ],
-      "description": "What is your connection to the site? (excluding \"other\")"
+      "description": "What is your connection to the site? (excluding \"other\")",
+      "title": "Site Connections Main"
     },
     "SiteSubmission": {
       "$id": "site-submission",
@@ -886,6 +896,8 @@
       "type": "object"
     },
     "SiteUses": {
+      "$id": "site_uses",
+      "description": "The proposed or existing use(s) of the site.",
       "enum": [
         "Class B2",
         "Class B8",
@@ -900,9 +912,11 @@
         "Other",
         "Undeveloped land"
       ],
+      "title": "Site Uses",
       "type": "string"
     },
     "Submitter": {
+      "$id": "submitter",
       "anyOf": [
         {
           "additionalProperties": false,
@@ -1047,7 +1061,9 @@
           ],
           "type": "object"
         }
-      ]
+      ],
+      "description": "The person submitting the site on behalf of themselves or an agent.",
+      "title": "Submitter"
     },
     "URL": {
       "format": "uri",
@@ -1055,11 +1071,14 @@
       "type": "string"
     },
     "YesNoMaybe": {
+      "$id": "yes_no_maybe",
+      "description": "A simple enumeration for yes, no, or maybe responses.",
       "enum": [
         "yes",
         "no",
         "maybe"
       ],
+      "title": "Yes No Maybe",
       "type": "string"
     }
   }

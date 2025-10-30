@@ -1,3 +1,11 @@
+/**
+ * @id site_uses
+ * @title Site Uses
+ * @description The proposed or existing use(s) of the site.
+ * @schema
+ *
+ * The proposed or existing use(s) of the site.
+ */
 export type SiteUses =
   | "Class B2"
   | "Class B8"
