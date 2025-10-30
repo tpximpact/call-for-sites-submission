@@ -20,4 +20,6 @@ export default defineConfig({
       },
     },
   },
+  // If you are deploying to https://<USERNAME>.github.io/<REPO>/ (eg. your repository is at https://github.com/<USERNAME>/<REPO>), then set base to '/<REPO>/'.
+  base: "/call-for-sites-submission/",
 });
