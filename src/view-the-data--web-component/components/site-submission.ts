@@ -235,7 +235,6 @@ export class SiteSubmission extends LitElement {
 
   private renderMetadata(metadata: SiteSubmissionMeta) {
     if (!metadata) return;
-    console.log(metadata);
     return html`
       <table>
         <tr>
