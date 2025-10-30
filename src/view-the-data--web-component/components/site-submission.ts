@@ -4,40 +4,14 @@ import { drawGeoJSON } from "../libs/draw-geojson";
 import type {
   QuestionAndResponses,
   Response,
-} from "../../../src/types/from-odp/Responses";
+} from "@/types/from-odp/Responses";
+import type { SiteSubmission as SiteSubmissionData } from "@/types/SiteSubmission";
+import type { Contact } from "@/types/data/Contact";
+import type { SiteSubmissionMeta } from "@/types/data/SiteSubmissionMeta";
+import { exampleSiteSubmission1 } from "./../example-data";
+import type { Address } from "@/types/from-odp/Addresses";
 
-const defaultData: SiteSubmission = {
-  data: {
-    submitter: {
-      type: "individual",
-      name: {
-        first: "",
-        last: "",
-      },
-      email: "",
-      phone: {
-        primary: "",
-      },
-      siteConnection: "Other",
-      siteConnectionOther: "hello",
-    },
-    site: {
-      address: { line1: "", town: "", postcode: "", country: "" },
-      boundary: {
-        type: "Feature",
-        geometry: { type: "MultiPolygon", coordinates: [] },
-        properties: {},
-      },
-    },
-    currentUse: [],
-    future: { potentialUse: [], potentialScale: "", siteSplit: "maybe" },
-    constraints: { other: "" },
-    applications: {},
-    access: {},
-  },
-  responses: [],
-  meta: { boundarySelectionMethod: "draw", submittedAt: "" },
-};
+const defaultData: SiteSubmissionData = exampleSiteSubmission1;
 
 @customElement("site-submission")
 export class SiteSubmission extends LitElement {
@@ -69,6 +43,10 @@ export class SiteSubmission extends LitElement {
       margin-top: 0;
       color: #0077cc;
       font-size: 1.2rem;
+    }
+    .card h3 {
+      color: #0077cc;
+      font-size: 1rem;
     }
     .card table {
       width: 100%;
@@ -175,7 +153,7 @@ export class SiteSubmission extends LitElement {
 
   // configurable component properties
   @property({ type: Object })
-  data: Data = defaultData;
+  data: SiteSubmissionData = defaultData;
 
   firstUpdated() {
     const boundary = this.data?.data?.site?.boundary;
@@ -188,6 +166,9 @@ export class SiteSubmission extends LitElement {
   }
 
   private renderResponses(responses: QuestionAndResponses[]) {
+    if (!responses || responses.length === 0) {
+      return html`<p>No responses available.</p>`;
+    }
     return html`
       <form class="responses-form">
         ${responses.map(
@@ -252,16 +233,125 @@ export class SiteSubmission extends LitElement {
     `;
   }
 
+  private renderMetadata(metadata: SiteSubmissionMeta) {
+    if (!metadata) return;
+    console.log(metadata);
+    return html`
+      <table>
+        <tr>
+          <td><strong>Submitted At</strong></td>
+          <td>
+            ${metadata.submittedAt
+              ? new Date(metadata.submittedAt).toLocaleString()
+              : "Unknown"}
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Boundary Selection Method</strong></td>
+          <td>${metadata.boundarySelectionMethod || "Unknown"}</td>
+        </tr>
+      </table>
+    `;
+  }
+
+  private renderContact(contact: Contact) {
+    if (!contact) return;
+    return html`
+      <table>
+        <tr>
+          <td>Name</td>
+          <td>
+            ${contact.name.title ? contact.name.title : ""}
+            ${contact.name.first ? contact.name.first : ""}
+            ${contact.name.last ? contact.name.last : ""}
+          </td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td>${contact.email ? contact.email : ""}</td>
+        </tr>
+        <tr>
+          <td>Phone</td>
+          <td>${contact.phone.primary ? contact.phone.primary : ""}</td>
+        </tr>
+        <tr>
+          <td>Company</td>
+          <td>${contact.company?.name ? contact.company.name : ""}</td>
+        </tr>
+
+        <tr>
+          <td>Connection to site</td>
+          <td>
+            ${contact.siteConnection ? contact.siteConnection : "Unknown"}
+            ${contact.siteConnection === "other" && contact.siteConnectionOther
+              ? html` - ${contact.siteConnectionOther}`
+              : ""}
+          </td>
+        </tr>
+      </table>
+    `;
+  }
+
+  private renderAddress(address: Address) {
+    if (!address) return;
+    return html`
+      <table>
+        <tr>
+          <td>Line 1</td>
+          <td>${address?.line1}</td>
+        </tr>
+        <tr>
+          <td>Line 2</td>
+          <td>${address?.line2}</td>
+        </tr>
+        <tr>
+          <td>Town</td>
+          <td>${address?.town}</td>
+        </tr>
+        <tr>
+          <td>County</td>
+          <td>${address?.county}</td>
+        </tr>
+        <tr>
+          <td>Postcode</td>
+          <td>${address?.postcode}</td>
+        </tr>
+        <tr>
+          <td>Country</td>
+          <td>${address?.country}</td>
+        </tr>
+      </table>
+    `;
+  }
+
+  private renderAccess(access: SiteSubmissionData["data"]["access"]) {
+    if (!access) return;
+    return html`
+      <table>
+        <tr>
+          <td>Existing access to public highway</td>
+          <td>
+            ${access.publicHighwayExistingAccess === true
+              ? "Yes"
+              : access.publicHighwayExistingAccess === false
+              ? "No"
+              : "Unknown"}
+          </td>
+        </tr>
+        <tr>
+          <td>Details of access provided to public highway</td>
+          <td>
+            ${access.publicHighwayAccessProvided
+              ? access.publicHighwayAccessProvided
+              : "N/A"}
+          </td>
+        </tr>
+      </table>
+    `;
+  }
+
   // Render the UI as a function of component state
   render() {
-    const submitter = this.data?.data?.submitter;
-    const owners = this.data?.data?.owners || [];
-    const address = this.data?.data?.site?.address;
-    const site = this.data?.data?.site;
-    const future = this.data?.data?.future;
-    const constraints = this.data?.data?.constraints;
-    const access = this.data?.data?.access;
-    const responses = this.data?.responses || [];
     return html`
       <div class="site-data">
         <section class="card">
@@ -270,129 +360,42 @@ export class SiteSubmission extends LitElement {
             width="600"
             height="400"></canvas>
         </section>
+
         <section class="card">
-          <h2>Site Details</h2>
-          <p>
-            <strong>Pre-Application Reference:</strong>
-            ${site?.preApplicationReference}
-          </p>
-          <p>
-            <strong>Site Assessment Reference:</strong>
-            ${site?.siteAssessmentReference}
-          </p>
-          <p>
-            <strong>Previous Assessment Date:</strong>
-            ${site?.previousAssessmentDate}
-          </p>
-          <p>
-            <strong>Current Use:</strong> ${(site?.currentUse || []).join(", ")}
-          </p>
-          <p>
-            <strong>Existing Use With Lease:</strong>
-            ${site?.existingUseWithLease ? "Yes" : "No"}
-          </p>
-          <p>
-            <strong>Third Party Reliant:</strong> ${site?.thirdPartyReliant
-              ? "Yes"
-              : "No"}
-          </p>
-          <p>
-            <strong>Legal Development Impediments:</strong>
-            ${site?.legalDevelopmentImpediments ? "Yes" : "No"}
-          </p>
-          <p>
-            <strong>Notable Abnormal Costs:</strong>
-            ${site?.notableAbnormalCosts ? "Yes" : "No"}
-          </p>
-          <p>
-            <strong>Neighbouring Use Structures Affect Development:</strong>
-            ${site?.neighbouringUseStructuresAffectDevelopment ? "Yes" : "No"}
-          </p>
-          <p>
-            <strong>Cannot Connect To Utilities:</strong>
-            ${site?.cannotConnectToUtilities ? "Yes" : "No"}
-          </p>
+          <h2>Site address</h2>
+          ${this.renderAddress(this.data.data.site.address)}
         </section>
-        <section class="card">
-          <h2>Site Address</h2>
-          <table>
-            <tr>
-              <td>Line 1</td>
-              <td>${address?.line1}</td>
-            </tr>
-            <tr>
-              <td>Town</td>
-              <td>${address?.town}</td>
-            </tr>
-            <tr>
-              <td>Postcode</td>
-              <td>${address?.postcode}</td>
-            </tr>
-            <tr>
-              <td>Country</td>
-              <td>${address?.country}</td>
-            </tr>
-          </table>
-        </section>
-        <section class="card">
-          <h2>Future</h2>
-          <p>
-            <strong>Potential Use:</strong> ${(future?.potentialUse || []).join(
-              ", "
-            )}
-          </p>
-          <p><strong>Potential Scale:</strong> ${future?.potentialScale}</p>
-          <p><strong>Site Split:</strong> ${future?.siteSplit}</p>
-        </section>
-        <section class="card">
+
+        <section class="card ">
           <h2>Constraints</h2>
-          <p><strong>Other:</strong> ${constraints?.other}</p>
         </section>
-        <section class="card">
+
+        <section class="card ">
           <h2>Access</h2>
-          <p>
-            <strong>Public Highway Existing Access:</strong>
-            ${access?.publicHighwayExistingAccess ? "Yes" : "No"}
-          </p>
+          ${this.renderAccess(this.data.data.access)}
         </section>
+
+        <section class="card ">
+          <h2>Applications</h2>
+        </section>
+
         <section class="card">
           <h2>Submitter</h2>
-          <p><strong>Name:</strong> ${submitter?.name}</p>
-          <p><strong>Email:</strong> ${submitter?.email}</p>
-          <p><strong>Telephone:</strong> ${submitter?.telephone}</p>
-          <p><strong>Connection:</strong> ${submitter?.connectionToSite}</p>
+          ${this.renderContact(this.data.data.submitter)}
+          ${this.data.data.submitter.agent ? html`<h3>Agent</h3>` : ""}
+          ${this.data.data.submitter.agent
+            ? this.renderContact(this.data.data.submitter.agent)
+            : ""}
         </section>
-        ${owners.map(
-          (owner: any) => html`
-            <section class="card">
-              <h2>Owner</h2>
-              <p><strong>Name:</strong> ${owner.name}</p>
-              <p><strong>Email:</strong> ${owner.email}</p>
-              <p><strong>Telephone:</strong> ${owner.telephone}</p>
-              <p><strong>Connection:</strong> ${owner.connectionToSite}</p>
-            </section>
-          `
-        )}
+
         <section class="card card--responses">
           <h2>Responses</h2>
-          ${this.renderResponses(responses)}
+          ${this.renderResponses(this.data.responses)}
         </section>
+
         <section class="card card--meta">
           <h2>Submission Metadata</h2>
-          <table>
-            <tr>
-              <td><strong>Submitted At</strong></td>
-              <td>
-                ${this.data?.meta?.submittedAt
-                  ? new Date(this.data.meta.submittedAt).toLocaleString()
-                  : "Unknown"}
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Boundary Selection Method</strong></td>
-              <td>${this.data?.meta?.boundarySelectionMethod || "Unknown"}</td>
-            </tr>
-          </table>
+          ${this.renderMetadata(this.data?.meta!)}
         </section>
       </div>
     `;

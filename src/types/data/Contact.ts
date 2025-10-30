@@ -1,5 +1,5 @@
 import type { ContactTypes } from "../enums/ContactTypes";
-import type { Other, SiteConnections } from "../enums/SiteConnections";
+import type { Other, SiteConnectionsMain } from "../enums/SiteConnections";
 import type { ContactDetails } from "../from-odp/Contacts";
 
 type ContactMain = ContactDetails & {
@@ -7,7 +7,7 @@ type ContactMain = ContactDetails & {
   /**
    * What is this contacts connection to the site?
    */
-  siteConnection: Omit<SiteConnections, "other">;
+  siteConnection: SiteConnectionsMain;
 };
 
 type ContactOther = ContactDetails & {

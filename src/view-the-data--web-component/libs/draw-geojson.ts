@@ -84,7 +84,7 @@ export function drawGeoJSON(geojson: GeoJSON, canvas: HTMLCanvasElement) {
 
   (geojson.geometry.coordinates as Coord[][][]).forEach(
     (polygon: Coord[][]) => {
-      polygon.forEach((ring: Coord[], ringIdx: number) => {
+      polygon.forEach((ring: Coord[], _ringIdx: number) => {
         ctx.beginPath();
         ring.forEach(([lng, lat]: Coord, i: number) => {
           const x = padding + (lng - minLng) * scaleX;

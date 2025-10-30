@@ -24,3 +24,14 @@ export type SiteConnections =
   | LocalResident
   | CommunityGroup
   | Other;
+
+/**
+ * What is your connection to the site? (excluding "other")
+ */
+export type SiteConnectionsMain =
+  | LandOwner
+  | PropertyOwner
+  | Developer
+  | Commercial
+  | LocalResident
+  | CommunityGroup;

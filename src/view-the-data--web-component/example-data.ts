@@ -1,8 +1,8 @@
-import type { SiteSubmissionMeta } from "./data/SiteSubmissionMeta";
-import type { Submitter } from "./data/Submitter";
-import type { Address } from "./from-odp/Addresses";
-import type { Responses } from "./from-odp/Responses";
-import type { SiteSubmission } from "./SiteSubmission";
+import type { SiteSubmissionMeta } from "../types/data/SiteSubmissionMeta";
+import type { Submitter } from "../types/data/Submitter";
+import type { Address } from "../types/from-odp/Addresses";
+import type { Responses } from "../types/from-odp/Responses";
+import type { SiteSubmission } from "../types/SiteSubmission";
 
 export const meta: SiteSubmissionMeta = {
   boundarySelectionMethod: "draw",
